@@ -1,0 +1,51 @@
+{
+  "name": "biojs-vis-gcpiechart",
+  "description": "Pie chart for base content of DNA sequence",
+  "version": "0.1.0",
+  "homepage": "https://github.com/DennisSchwartz/biojs-vis-gcpiechart",
+  "author": {
+    "name": "DennisSchwartz",
+    "email": "schwartz_dennis@web.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DennisSchwartz/biojs-vis-gcpiechart.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DennisSchwartz/biojs-vis-gcpiechart/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/DennisSchwartz/biojs-vis-gcpiechart/blob/master/LICENSE"
+    }
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": {
+		"test": "echo 'Error: no test specified' && exit 1",
+		"build": "mkdirp build && browserify -r ./:biojs-vis-gcpiechart -o build/gcpiechart.js",
+		"build-browser": "npm run build",
+		"install": "npm run build",
+		"watch": "watchify -r ./:biojs-vis-gcpiechart -v -o build/gcpiechart.js",
+		"w": "prunner \"npm run sniper\" \"npm run watch\"",
+		"sniper": "sniper .",
+        "css": "parcelify ./css/ -c build/bundle.css"
+  },
+  "dependencies": {},
+  "devDependencies": {
+		"mkdirp": "^0.5.0",
+		"browserify": "6.x",
+		"sniper": "0.x",
+		"watchify": "^1.0.6",
+		"prunner": "1.x",
+        "parcelify": "0.x"
+  },
+  "style": "css/*.css",
+  "sniper": {
+    "js": [ "/build/gcpiechart.js"],
+    "snippets": ["examples"],
+    "first": "simple"
+   }, 
+  "keywords": ["pie chart","d3","biojs","biology","visualisation","biojs"]
+}
