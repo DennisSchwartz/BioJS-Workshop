@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GCPieChart Demo</title>
+    <link href="main.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+        jQuery = $;
+    </script>
+    <script type="text/javascript" src="biojs-vis-sequence.js"></script>
+    <script type="text/javascript" src="jquery-browser-plugin.js"></script>
+    <script type="text/javascript" src="biojs-vis-proteinFeaturesViewer.js"></script>
+</head>
+<body>
+
+
+<div id="input">
+    <label for="accession">Accession ID:</label>
+    <input id="accession" type="text" />
+    <button type="submit" onclick="getData()">Go!</button>
+</div>
+
+
+<div id="target_ft"></div>
+<div id="target_seq"></div>
+
+
+<script type="text/javascript">
+
+    function getData() {
+   // $(document).ready( function () {
+        var el = document.getElementById('accession');
+        var accession = el.value;
+
+        var featureViewer_Element = document.getElementById('target_ft');
+
+        var mySequence;
+        var biojs_vis_proteinFeaturesViewer;
+
+        biojs_vis_proteinFeaturesViewer= require('biojs-vis-proteinfeaturesviewer');
+        var featureViewer = new biojs_vis_proteinFeaturesViewer({
+            el: featureViewer_Element,
+            uniprotacc : accession
+        });
+
+        featureViewer.getDispatcher().on("ready", function() {
+            $.browser = require("jquery-browser-plugin");
+            var Sequence = require('biojs-vis-sequence');
+            mySequence = new Sequence({
+                sequence: featureViewer.sequence,
+                target: "target_seq",
+                format: 'CODATA',
+                formatOptions: {
+                    title: false,
+                    footer: false
+                },
+                columns: {
+                    size: 50,
+                    spacedEach: 10
+                },
+                selectionFontColor: 'black',
+                selectionColor: 'lightgray',
+                highlightOpacity: 1,
+                priorityOnHighlight: true
+            });
+            mySequence.removeAllHighlights();
+            mySequence.on('onSelectionChanged', function( objEvent ) {
+                        console.log(objEvent);
+                    }
+            );
+        });
+
+        featureViewer.getDispatcher().on("featureSelected", function(data) {
+            mySequence.addHighlight({
+                "start": +data.feature.begin,
+                "end": +data.feature.end,
+                "color": "white",
+                "background": data.color
+            });
+//            while (pieElement.firstChild) {
+//                pieElement.removeChild(pieElement.firstChild);
+//            }
+//            pieChart = new Pie({
+//                el: pieElement,
+//                sequence: featureViewer.sequence.substr(+data.feature.begin, +data.feature.end)
+//            });
+
+        });
+
+        featureViewer.getDispatcher().on("featureDeselected", function(obj) {
+            mySequence.removeAllHighlights();
+        });
+
+
+    }
+
+</script>
+</body>
+</html>
