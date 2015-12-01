@@ -73,6 +73,37 @@ var Pie = function ( opts ) {
             return color(d.data.label);
         });
 
+    /*
+        Adding Labels
+     */
+
+    var labelArc = d3.svg.arc()
+        .outerRadius(radius - 40)
+        .innerRadius(radius - 100);
+
+    // Calculate the positions for labels
+    var textPositions = {};
+    path.each(function (d) {
+        textPositions[d.data.label] = labelArc.centroid(d);
+    });
+
+    // Create text elements
+    var textElements = svg.selectAll('text')
+        .data(dataset)
+        .enter()
+        .append("text");
+
+    // Set position and text of text elements
+    var text = textElements
+        .attr("transform", function(d) {
+            return "translate(" + textPositions[d.label][0] + "," + textPositions[d.label][1] + ")";
+        })
+        .attr("dy", ".35em")
+        .text(function(d) {
+            return d.label;
+        });
+
+
     function countBases( seq ) {
 
         var counts = {

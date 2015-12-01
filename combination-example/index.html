@@ -37,12 +37,15 @@
         var accession = el.value;
 
         var featureViewer_Element = document.getElementById('target_ft');
+        var pie_element = document.getElementById('pie');
 
         var mySequence;
-        var biojs_vis_proteinFeaturesViewer;
+        var pieChart;
+        var featureViewer;
 
-        biojs_vis_proteinFeaturesViewer= require('biojs-vis-proteinfeaturesviewer');
-        var featureViewer = new biojs_vis_proteinFeaturesViewer({
+        var Pie = require('biojs-vis-piechart-demo');
+        var biojs_vis_proteinFeaturesViewer= require('biojs-vis-proteinfeaturesviewer');
+        featureViewer = new biojs_vis_proteinFeaturesViewer({
             el: featureViewer_Element,
             uniprotacc : accession
         });
@@ -72,6 +75,11 @@
                         console.log(objEvent);
                     }
             );
+            pieChart = new Pie({
+                el: pie_element,
+                sequence: featureViewer.sequence.substr(featureViewer.sequence)
+            });
+
         });
 
         featureViewer.getDispatcher().on("featureSelected", function(data) {
@@ -81,14 +89,13 @@
                 "color": "white",
                 "background": data.color
             });
-//            while (pieElement.firstChild) {
-//                pieElement.removeChild(pieElement.firstChild);
-//            }
-//            pieChart = new Pie({
-//                el: pieElement,
-//                sequence: featureViewer.sequence.substr(+data.feature.begin, +data.feature.end)
-//            });
-
+            while (pie_element.firstChild) {
+                pie_element.removeChild(pie_element.firstChild);
+            }
+            pieChart = new Pie({
+                el: pie_element,
+                sequence: featureViewer.sequence.substring(data.feature.begin, data.feature.end)
+            });
         });
 
         featureViewer.getDispatcher().on("featureDeselected", function(obj) {
