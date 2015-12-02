@@ -21,32 +21,45 @@
     }
   ],
   "main": "lib/index.js",
-  "style": "css/*.css", 
+  "style": "css/*.css",
   "scripts": {
-		"test": "echo 'Error: no test specified' && exit 1",
-		"build": "mkdirp build && browserify -r ./:biojs-vis-piechart-demo -o build/demo.js",
-		"build-browser": "npm run build",
-		"install": "npm run build && npm run css",
-		"watch": "watchify -r ./:biojs-vis-piechart-demo -v -o build/demo.js",
-		"w": "prunner \"npm run sniper\" \"npm run watch\" \"npm run watch-css\"",
-		"sniper": "sniper .",
-		"css": "parcelify ./ -c build/bundle.css",
-		"watch-css": "parcelify -w ./ -c build/bundle.css --loglevel verbose"
+    "test": "echo 'Error: no test specified' && exit 1",
+    "build": "mkdirp build && browserify -r ./:biojs-vis-piechart-demo -o build/demo.js",
+    "build-browser": "npm run build",
+    "install": "npm run build && npm run css",
+    "watch": "watchify -r ./:biojs-vis-piechart-demo -v -o build/demo.js",
+    "w": "prunner \"npm run sniper\" \"npm run watch\" \"npm run watch-css\"",
+    "sniper": "sniper .",
+    "css": "parcelify ./ -c build/bundle.css",
+    "watch-css": "parcelify -w ./ -c build/bundle.css --loglevel verbose"
   },
-  "dependencies": {},
+  "dependencies": {
+    "d3": "^3.5.10"
+  },
   "devDependencies": {
-		"mkdirp": "^0.5.0",
-		"browserify": "6.x",
-		"sniper": "0.x",
-		"watchify": "^1.0.6",
-		"prunner": "1.x",
-		"parcelify": "0.x"
-  }, 
+    "mkdirp": "^0.5.0",
+    "browserify": "6.x",
+    "sniper": "0.x",
+    "watchify": "^1.0.6",
+    "prunner": "1.x",
+    "parcelify": "0.x"
+  },
   "sniper": {
-    "js": [ "/build/demo.js"],
-    "css": ["/build/bundle.css"], 
-    "snippets": ["examples"],
+    "js": [
+      "/build/demo.js"
+    ],
+    "css": [
+      "/build/bundle.css"
+    ],
+    "snippets": [
+      "examples"
+    ],
     "first": "simple"
-   }, 
-  "keywords": ["biojs","pie chart","visualisation","biojs"]
+  },
+  "keywords": [
+    "biojs",
+    "pie chart",
+    "visualisation",
+    "biojs"
+  ]
 }
